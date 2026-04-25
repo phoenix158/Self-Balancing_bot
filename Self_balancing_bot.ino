@@ -4,13 +4,11 @@
 
 MPU6050 mpu;
 
-// PID variables
-double setpoint = 0;   // Target angle (upright)
+double setpoint = 0;
 double input, output;
-double Kp = 20, Ki = 5, Kd = 1;  // Tune these!
+double Kp = 20, Ki = 5, Kd = 1;
 PID myPID(&input, &output, &setpoint, Kp, Ki, Kd, DIRECT);
 
-// Motor pins
 #define IN1 8
 #define IN2 9
 #define IN3 10
@@ -36,7 +34,6 @@ void loop() {
   int16_t ax, ay, az, gx, gy, gz;
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
-  // Calculate tilt angle
   input = atan2(ay, az) * 180 / PI;
 
   myPID.Compute();
@@ -48,11 +45,9 @@ void driveMotors(double speed) {
   spd = constrain(spd, 0, 255);
 
   if (speed > 0) {
-    // Forward
     digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);
     digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);
   } else {
-    // Backward
     digitalWrite(IN1, LOW); digitalWrite(IN2, HIGH);
     digitalWrite(IN3, LOW); digitalWrite(IN4, HIGH);
   }
