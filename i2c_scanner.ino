@@ -3,7 +3,7 @@
 void setup() {
   Wire.begin();
   Serial.begin(9600);
-  while (!Serial); // Wait for Serial Monitor to open
+  while (!Serial);
   Serial.println("\nI2C Scanner");
 }
 
@@ -15,9 +15,6 @@ void loop() {
 
   nDevices = 0;
   for (address = 1; address < 127; address++) {
-    // The i2c_scanner uses the return value of
-    // the Write.endTransmisstion to see if
-    // a device did acknowledge to the address.
     Wire.beginTransmission(address);
     error = Wire.endTransmission();
 
